@@ -45,4 +45,7 @@ public class ThirdPersonController : MonoBehaviour
             _aimCanvas.enabled = false;
         }
     }
+
+    
+
 }

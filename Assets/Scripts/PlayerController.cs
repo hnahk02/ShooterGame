@@ -1,12 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
+
+    private BoxCollider _boxCollider;
 
     [SerializeField] private float _speed = 3f;
     [SerializeField] private float _rotationSpeed = .8f;
@@ -17,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Instance = this; 
+        _boxCollider = GetComponent<BoxCollider>(); 
     }
 
     private void Start()
@@ -53,4 +57,21 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private bool CheckObstacle()
+    {
+        Collider[] hitColliders = Physics.OverlapBox(_boxCollider.bounds.center, _boxCollider.bounds.extents, _boxCollider.transform.rotation);
+
+        foreach (Collider hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Wall"))  // Assuming walls have a tag named "Wall"
+            {
+                // Handle obstacle logic here
+                Debug.Log("Obstacle detected: " + hitCollider.name);
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+
